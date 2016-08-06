@@ -1,4 +1,4 @@
-apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'eclipse'
 
 repositories {
@@ -12,6 +12,10 @@ sourceSets {
         }
     }
 }
+
+sourceCompatibility = 1.8
+version = '0.1_RC2'
+mainClassName = "mattproject.dotte.Dotte"
 
 dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
