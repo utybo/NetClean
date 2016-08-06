@@ -18,3 +18,7 @@ dependencies {
     compile 'com.miglayout:miglayout-swing:5.0'
 
 }
+
+task stage {
+  dependsOn build
+}
