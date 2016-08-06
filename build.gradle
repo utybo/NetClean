@@ -14,8 +14,8 @@ sourceSets {
 }
 
 sourceCompatibility = 1.8
-version = '0.1_RC2'
-mainClassName = "mattproject.dotte.Dotte"
+version = '0.1'
+mainClassName = "netclean.chat.server.ChatServer"
 
 dependencies {
     compile 'com.google.code.gson:gson:2.6.2'

@@ -1,1 +1,1 @@
-server: gradle run
+server: ./gradlew run
