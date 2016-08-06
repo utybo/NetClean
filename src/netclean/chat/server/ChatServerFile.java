@@ -63,12 +63,15 @@ public class ChatServerFile
     {
         file = f;
     }
-    
+
     public synchronized void save() throws IOException
     {
-        FileWriter fw = new FileWriter(file);
-        new Gson().toJson(this, fw);
-        fw.flush();
-        fw.close();
+        if(file != null)
+        {
+            FileWriter fw = new FileWriter(file);
+            new Gson().toJson(this, fw);
+            fw.flush();
+            fw.close();
+        }
     }
 }

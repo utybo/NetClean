@@ -55,7 +55,7 @@ public class ChatServer
         commandsRegistry.put("whisper", new Whisp());
 
         commandsRegistry.put("new", new NewCommand());
-        
+
         commandsRegistry.put("q", new DisconnectCommand());
         commandsRegistry.put("d", new DisconnectCommand());
         commandsRegistry.put("quit", new DisconnectCommand());
@@ -64,33 +64,37 @@ public class ChatServer
 
     public static void main(String[] args)
     {
-        if(args.length != 1)
-        {
-            System.err.println("ChatServer requires 1 argument, which is the server file");
-        }
         int port = 7566;
-        File f = new File(args[0]);
-        try
+        if(args.length < 1)
         {
-            if(f.exists())
-            {
-                data = new Gson().fromJson(new FileReader(f), ChatServerFile.class);
-                data.setFile(f);
-            }
-            if(data == null)
-            {
-                f.getParentFile().mkdirs();
-                f.createNewFile();
-                data = new ChatServerFile();
-                data.setFile(f);
-                data.save();
-            }
+            System.err.println("!! ChatServer is running in FILE-LESS MODE. NOTHING WILL BE PERSISTENT.");
+            data = new ChatServerFile();
         }
-        catch(Exception e)
+        else
         {
-            System.err.println("Error during server file loading");
-            e.printStackTrace();
-            return;
+            File f = new File(args[0]);
+            try
+            {
+                if(f.exists())
+                {
+                    data = new Gson().fromJson(new FileReader(f), ChatServerFile.class);
+                    data.setFile(f);
+                }
+                if(data == null)
+                {
+                    f.getParentFile().mkdirs();
+                    f.createNewFile();
+                    data = new ChatServerFile();
+                    data.setFile(f);
+                    data.save();
+                }
+            }
+            catch(Exception e)
+            {
+                System.err.println("Error during server file loading");
+                e.printStackTrace();
+                return;
+            }
         }
 
         NCServer server = new NCServer(port);
@@ -132,7 +136,7 @@ public class ChatServer
         {
             e.printStackTrace();
         }
-        
+
         // Start watcher
         if(!data.exists("[BOT]ServerWatcher"))
         {
