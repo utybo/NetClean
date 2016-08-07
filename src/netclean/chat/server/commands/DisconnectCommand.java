@@ -17,6 +17,7 @@ public class DisconnectCommand implements Command
         catch(IOException e)
         {
             MessagingUtils.sendSystemMessage(sentBy, "Could not disconnect you from the server.", MessageType.ERROR);
+            e.printStackTrace();
         }
     }
 
