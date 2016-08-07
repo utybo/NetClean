@@ -69,24 +69,28 @@ public class ChatServer
             System.err.println("Usage : <port> [server file]");
             return;
         }
+        System.out.println("NETCLEAN CHAT -- Server");
         int port = Integer.valueOf(args[0]);
         if(args.length < 2)
         {
-            System.err.println("!! ChatServer is running in FILE-LESS MODE. NOTHING WILL BE PERSISTENT.");
+            System.out.println("!! ChatServer is running in FILE-LESS MODE. NOTHING WILL BE PERSISTENT.");
             data = new ChatServerFile();
         }
         else
         {
+            System.out.println("Loading file : " + args[1]);
             File f = new File(args[1]);
             try
             {
                 if(f.exists())
                 {
+                    System.out.println("File already exists, loading...");
                     data = new Gson().fromJson(new FileReader(f), ChatServerFile.class);
                     data.setFile(f);
                 }
                 if(data == null)
                 {
+                    System.out.println("File does not exist, creating...");
                     f.getParentFile().mkdirs();
                     f.createNewFile();
                     data = new ChatServerFile();
@@ -96,12 +100,13 @@ public class ChatServer
             }
             catch(Exception e)
             {
-                System.err.println("Error during server file loading");
+                System.out.println("Error during server file loading");
                 e.printStackTrace();
                 return;
             }
         }
 
+        System.out.println("Starting server...");
         NCServer server = new NCServer(port);
         try
         {
@@ -141,6 +146,7 @@ public class ChatServer
         {
             e.printStackTrace();
         }
+        System.out.println("Server started. Use '/watcher start' to fire up the ServerWatcher bot");
 
 //        // Start watcher
 //        if(!data.exists("[BOT]ServerWatcher"))
