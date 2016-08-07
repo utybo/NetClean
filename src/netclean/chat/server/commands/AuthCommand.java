@@ -115,4 +115,22 @@ public class AuthCommand implements Command
         return 0; // We don't really care as this is for unauth people
     }
 
+    @Override
+    public String getPreferredCommand()
+    {
+        return "auth";
+    }
+
+    @Override
+    public String getSyntax()
+    {
+        return "/auth <username> <password>";
+    }
+
+    @Override
+    public String getShortHelp()
+    {
+        return "Authenticates the current session";
+    }
+
 }

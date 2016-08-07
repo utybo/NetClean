@@ -41,4 +41,22 @@ public class Send implements Command
         return PermissionLevels.TALKER;
     }
 
+    @Override
+    public String getPreferredCommand()
+    {
+        return "send";
+    }
+
+    @Override
+    public String getSyntax()
+    {
+        return "/send message";
+    }
+
+    @Override
+    public String getShortHelp()
+    {
+        return "Sends a message";
+    }
+
 }

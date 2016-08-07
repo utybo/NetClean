@@ -33,4 +33,22 @@ public class DisconnectCommand implements Command
         return 0;
     }
 
+    @Override
+    public String getPreferredCommand()
+    {
+        return "disconnect";
+    }
+
+    @Override
+    public String getSyntax()
+    {
+        return "/disconnect";
+    }
+
+    @Override
+    public String getShortHelp()
+    {
+        return "Stops the current server<-->client session, disconnecting the peer";
+    }
+
 }

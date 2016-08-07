@@ -30,4 +30,22 @@ public class R implements Command
         return PermissionLevels.GHOST;
     }
 
+    @Override
+    public String getPreferredCommand()
+    {
+        return "r";
+    }
+
+    @Override
+    public String getSyntax()
+    {
+        return "r <module>";
+    }
+
+    @Override
+    public String getShortHelp()
+    {
+        return "Utility command which re-sends some information";
+    }
+
 }

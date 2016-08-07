@@ -63,7 +63,7 @@ public interface PermissionLevels
             prefix = "|Ghost|";
             break;
         case PermissionLevels.VIEWER:
-            prefix = "|Viewer|";
+            prefix = "(Viewer) ";
             break;
         case PermissionLevels.RESTRICTED:
             prefix = "(Restricted) ";
@@ -87,4 +87,39 @@ public interface PermissionLevels
         return prefix;
     }
 
+    public static String getName(int i)
+    {
+        String name = "";
+        switch(i)
+        {
+        case PermissionLevels.BANNED:
+            name = "Banned";
+            break;
+        case PermissionLevels.GHOST:
+            name = "Ghost";
+            break;
+        case PermissionLevels.VIEWER:
+            name = "Viewer";
+            break;
+        case PermissionLevels.RESTRICTED:
+            name = "Restricted user";
+            break;
+        case PermissionLevels.TALKER:
+            name = "Basic user";
+            break;
+        case PermissionLevels.VIP:
+            name = "VIP";
+            break;
+        case PermissionLevels.ELDER:
+            name = "Elder";
+            break;
+        case PermissionLevels.MOD:
+            name = "Moderator";
+            break;
+        case PermissionLevels.ADMIN:
+            name = "Admin";
+            break;
+        }
+        return name;
+    }
 }

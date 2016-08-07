@@ -24,13 +24,12 @@ public class Whisp implements Command
             }
             else
             {
-                UserConnection sendTo = null;
                 boolean b = false;
                 synchronized(ChatServer.usersLock)
                 {
                     for(UserConnection uc : ChatServer.users)
                     {
-                        if(uc.isAuth() && uc.getName().equals(toWho) && uc.getUser().getPermLevel() < PermissionLevels.TALKER)
+                        if(uc.isAuth() && uc.getName().equals(toWho) && uc.getUser().getPermLevel() >= PermissionLevels.TALKER)
                         {
                             byte[] bytes = ChatServer.objectToByteArray(new WhispMessage(sentBy.getName(), toWho, message));
                             uc.getPeer().send(bytes);
@@ -41,7 +40,7 @@ public class Whisp implements Command
                 }
                 if(b == false)
                 {
-                    MessagingUtils.sendSystemMessage(sentBy, "Could not whisp " + toWho + ". Are you sure they are connected?", MessageType.ERROR);
+                    MessagingUtils.sendSystemMessage(sentBy, "Could not whisp " + toWho + ". Are you sure they are connected and can receive whisps?", MessageType.ERROR);
                 }
             }
         }
@@ -57,6 +56,24 @@ public class Whisp implements Command
     public int minimumPermLevel()
     {
         return PermissionLevels.TALKER;
+    }
+
+    @Override
+    public String getPreferredCommand()
+    {
+        return "whisp";
+    }
+
+    @Override
+    public String getSyntax()
+    {
+        return "/whisp <username> <message>";
+    }
+
+    @Override
+    public String getShortHelp()
+    {
+        return "Sends a private message";
     }
 
 }

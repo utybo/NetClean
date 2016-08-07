@@ -1,4 +1,4 @@
-package netclean.chat.server;
+package netclean.chat.server.watcher;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import netclean.chat.packets.servertoclient.UserDisconnectedNotification;
 
 public class ServerWatcher implements PeerListener
 {
+    static final String name = "[BOT]ServerWatcher";
     private NCClient client;
     private BufferedWriter writer;
 

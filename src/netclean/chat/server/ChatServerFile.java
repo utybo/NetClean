@@ -74,4 +74,26 @@ public class ChatServerFile
             fw.close();
         }
     }
+
+    public void delete(String uname)
+    {
+        for(ChatUser cu : users)
+        {
+            if(cu.getUsername().equals(uname))
+            {
+                users.remove(cu);
+                return;
+            }
+        }
+    }
+
+    public ChatUser getUser(String uname)
+    {
+        for(ChatUser cu : users)
+        {
+            if(cu.getUsername().equals(uname))
+                return cu;
+        }
+        return null;
+    }
 }

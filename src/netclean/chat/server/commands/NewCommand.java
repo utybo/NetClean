@@ -92,4 +92,22 @@ public class NewCommand implements Command
         return 0;
     }
 
+    @Override
+    public String getPreferredCommand()
+    {
+        return "new";
+    }
+
+    @Override
+    public String getSyntax()
+    {
+        return "/new <username> <password>";
+    }
+
+    @Override
+    public String getShortHelp()
+    {
+        return "Creates an account";
+    }
+
 }

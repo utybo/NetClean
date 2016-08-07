@@ -9,4 +9,15 @@ public interface Command
     public boolean requiresAuth();
     
     public int minimumPermLevel();
+    
+    public String getPreferredCommand();
+    
+    public String getSyntax();
+    
+    public String getShortHelp();
+    
+    public default String getLongHelp()
+    {
+        return getShortHelp();
+    }
 }
