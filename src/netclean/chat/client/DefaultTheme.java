@@ -29,7 +29,7 @@ public class DefaultTheme extends Theme
         case WHISP:
             return new MessageStyle(false, true, false, new Color(200, 0, 200), null);
         case NOTIFICATION:
-            return new MessageStyle(false, false, false, Color.BLUE, null);
+            return new MessageStyle(false, false, false, new Color(175, 175, 255), null);
         default:
             return new MessageStyle();
 
