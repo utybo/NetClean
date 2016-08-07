@@ -1,11 +1,9 @@
 package netclean.chat.server.commands;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
-import netclean.SerialUtils;
 import netclean.chat.packets.servertoclient.MessageType;
-import netclean.chat.packets.servertoclient.UserConnectedNotification;
-import netclean.chat.packets.servertoclient.UserList;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.ChatUser;
 import netclean.chat.server.UserConnection;
@@ -32,6 +30,13 @@ public class NewCommand implements Command
             if(ChatServer.getData().exists(uname))
             {
                 MessagingUtils.sendSystemMessage(sentBy, "An user has already registered that name!", MessageType.ERROR);
+                return;
+            }
+            Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+            boolean incorrect = p.matcher(uname).find();
+            if(incorrect)
+            {
+                MessagingUtils.sendSystemMessage(sentBy, "Your username can only contain regular letters (a-z A-Z) and numbers (0-9)!", MessageType.ERROR);
                 return;
             }
             try
