@@ -57,7 +57,7 @@ public class ConnectDialog extends JDialog
         contentPanel.add(lblPort, "cell 0 2,alignx trailing");
 
         textField_1 = new JSpinner();
-        textField_1.setModel(new SpinnerNumberModel(new Integer(7566), new Integer(0), new Integer(65535), new Integer(1)));
+        textField_1.setModel(new SpinnerNumberModel(new Integer(34555), new Integer(0), new Integer(65535), new Integer(1)));
         contentPanel.add(textField_1, "cell 1 2,growx");
 
         JPanel buttonPane = new JPanel();
