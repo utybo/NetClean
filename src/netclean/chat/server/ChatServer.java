@@ -64,15 +64,20 @@ public class ChatServer
 
     public static void main(String[] args)
     {
-        int port = 7566;
         if(args.length < 1)
+        {
+            System.err.println("Usage : <port> [server file]");
+            return;
+        }
+        int port = Integer.valueOf(args[0]);
+        if(args.length < 2)
         {
             System.err.println("!! ChatServer is running in FILE-LESS MODE. NOTHING WILL BE PERSISTENT.");
             data = new ChatServerFile();
         }
         else
         {
-            File f = new File(args[0]);
+            File f = new File(args[1]);
             try
             {
                 if(f.exists())
@@ -137,23 +142,23 @@ public class ChatServer
             e.printStackTrace();
         }
 
-        // Start watcher
-        if(!data.exists("[BOT]ServerWatcher"))
-        {
-            data.create("[BOT]ServerWatcher", ChatUser.sha256("UberSuperCoolString"));
-        }
-        try
-        {
-            ServerWatcher sw = new ServerWatcher(new BufferedWriter(new OutputStreamWriter(System.out)), "[BOT]ServerWatcher", "UberSuperCoolString", "localhost", port);
-        }
-        catch(UnknownHostException e)
-        {
-            e.printStackTrace();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
+//        // Start watcher
+//        if(!data.exists("[BOT]ServerWatcher"))
+//        {
+//            data.create("[BOT]ServerWatcher", ChatUser.sha256());
+//        }
+//        try
+//        {
+//            ServerWatcher sw = new ServerWatcher(new BufferedWriter(new OutputStreamWriter(System.out)), "[BOT]ServerWatcher", "UberSuperCoolString", "localhost", port);
+//        }
+//        catch(UnknownHostException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        catch(IOException e)
+//        {
+//            e.printStackTrace();
+//        }
     }
 
     public static byte[] objectToByteArray(Object o)
