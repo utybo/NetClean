@@ -37,6 +37,7 @@ public class ClientGUI extends JFrame
     private JTextPane text;
     private JTextField txtCommand;
     private JList<String> list;
+    private JScrollPane scrollPane;
 
     public ClientGUI()
     {
@@ -59,7 +60,7 @@ public class ClientGUI extends JFrame
         splitPane.setResizeWeight(0.9);
         getContentPane().add(splitPane, BorderLayout.CENTER);
 
-        JScrollPane scrollPane = new JScrollPane();
+        scrollPane = new JScrollPane();
         text = new JTextPane();
         text.setBackground(Color.DARK_GRAY);
         text.setForeground(Color.WHITE);
@@ -94,6 +95,7 @@ public class ClientGUI extends JFrame
 
     private void appendToPane(JTextPane tp, String msg, MessageType t)
     {
+        boolean scrollToBottom = scrollPane.getVerticalScrollBar().getValue() == scrollPane.getVerticalScrollBar().getMaximum();
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet aset = SimpleAttributeSet.EMPTY;
 
@@ -113,6 +115,11 @@ public class ClientGUI extends JFrame
         catch(BadLocationException e)
         {
             e.printStackTrace();
+        }
+        
+        if(scrollToBottom)
+        {
+            scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
         }
     }
 

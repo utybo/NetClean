@@ -44,7 +44,7 @@ public class ChatClient
         {
             gui = new ClientGUI();
             gui.setVisible(true);
-            
+
             ConnectDialog cd = new ConnectDialog(gui);
             cd.setVisible(true);
 
@@ -132,7 +132,11 @@ public class ChatClient
         if(s.startsWith("/"))
         {
             String head = s.split(" ")[0].substring(1);
-            String body = s.substring(s.indexOf(' ') + 1);
+            String body = "";
+            if(s.split(" ").length > 1)
+            {
+                body = s.substring(s.indexOf(' ') + 1);
+            }
             client.send(objectToByteArray(new CommandOTA(head, body)));
         }
         else
