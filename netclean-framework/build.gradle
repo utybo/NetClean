@@ -1,0 +1,9 @@
+sourceSets {
+    main {
+        java {
+            srcDir 'src/java/main'
+        }
+    }
+}
+
+version = '0.1'

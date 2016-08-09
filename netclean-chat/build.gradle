@@ -1,0 +1,28 @@
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/java/main'
+        }
+    }
+}
+
+sourceCompatibility = 1.8
+version = '0.1'
+mainClassName = "netclean.chat.server.ChatServer"
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.miglayout:miglayout-swing:5.0'
+    compile project(':netclean-framework')
+}
+
+task stage {
+  dependsOn build
+}
