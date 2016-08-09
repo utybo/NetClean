@@ -8,6 +8,10 @@ import netclean.chat.packets.servertoclient.MessageType;
 import netclean.chat.packets.servertoclient.UserDisconnectedNotification;
 import netclean.chat.server.commands.Command;
 import netclean.chat.server.commands.MessagingUtils;
+import netclean.chat.server.commands.context.TrackingContext;
+import netclean.chat.server.commands.exception.CommandException;
+import netclean.chat.server.commands.exception.NotEnoughPermissionException;
+import netclean.chat.server.commands.exception.WrongUsageException;
 
 public class UserConnection implements PeerListener
 {
@@ -29,29 +33,53 @@ public class UserConnection implements PeerListener
             {
                 CommandOTA c = (CommandOTA)o;
                 Command com = ChatServer.commandsRegistry.get(c.commandName);
+                TrackingContext context = new TrackingContext()
+                {
+
+                    @Override
+                    public long getTrackingId()
+                    {
+                        return c.trackingId;
+                    }
+                };
                 if(com != null)
                 {
-                    if(com.requiresAuth())
+                    try
                     {
-                        if(isAuth())
+                        if(com.requiresAuth())
                         {
-                            if(com.minimumPermLevel() <= user.getPermLevel())
+                            if(isAuth())
                             {
-                                com.exec(c.commandBody, this);
+                                if(com.minimumPermLevel() <= user.getPermLevel())
+                                {
+                                    com.exec(c.commandBody, this, context);
+                                }
+                                else
+                                {
+                                    MessagingUtils.sendSystemMessage(this, "You do not have the required permission level to execute this command.", MessageType.ERROR, context);
+                                }
                             }
                             else
                             {
-                                MessagingUtils.sendSystemMessage(this, "You do not have the required permission level to execute this command.", MessageType.ERROR);
+                                MessagingUtils.sendSystemMessage(this, "You need to be logged in to use this command. Use '/auth <username> <password>' to log in or '/new <username> <password>' to create an account.", MessageType.ERROR, context);
                             }
                         }
                         else
                         {
-                            MessagingUtils.sendSystemMessage(this, "You need to be logged in to use this command. Use '/auth <username> <password>' to log in or '/new <username> <password>' to create an account.", MessageType.ERROR);
+                            com.exec(c.commandBody, this, context);
                         }
                     }
-                    else
+                    catch(WrongUsageException e)
                     {
-                        com.exec(c.commandBody, this);
+                        MessagingUtils.sendSystemMessage(this, "Incorrect syntax. (Correct syntax : '" + com.getSyntax() + "')", MessageType.ERROR, context);
+                    }
+                    catch(NotEnoughPermissionException e)
+                    {
+                        MessagingUtils.sendSystemMessage(this, "You do not have enough permissions to execute this command.", MessageType.ERROR, context);
+                    }
+                    catch(CommandException e)
+                    {
+                        e.printStackTrace();
                     }
                 }
                 else

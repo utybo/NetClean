@@ -2,13 +2,14 @@ package netclean.chat.server.commands;
 
 import java.io.IOException;
 
-import netclean.chat.packets.servertoclient.MessageType;
 import netclean.chat.server.UserConnection;
+import netclean.chat.server.commands.exception.CommandException;
+import netclean.chat.server.commands.exception.ExecutionException;
 
 public class DisconnectCommand implements Command
 {
     @Override
-    public void exec(String commandDesc, UserConnection sentBy)
+    public void exec(String commandDesc, UserConnection sentBy, CommandContext context) throws CommandException
     {
         try
         {
@@ -16,8 +17,7 @@ public class DisconnectCommand implements Command
         }
         catch(IOException e)
         {
-            MessagingUtils.sendSystemMessage(sentBy, "Could not disconnect you from the server.", MessageType.ERROR);
-            e.printStackTrace();
+            throw new ExecutionException("Could not disconnect you from the server.", e, context);
         }
     }
 

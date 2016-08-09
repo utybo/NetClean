@@ -5,12 +5,14 @@ import netclean.chat.server.ChatServer;
 import netclean.chat.server.ChatUser;
 import netclean.chat.server.PermissionLevels;
 import netclean.chat.server.UserConnection;
+import netclean.chat.server.commands.exception.CommandException;
+import netclean.chat.server.commands.exception.WrongUsageException;
 
 public class SetPermCommand implements Command
 {
 
     @Override
-    public void exec(String commandDesc, UserConnection sentBy)
+    public void exec(String commandDesc, UserConnection sentBy, CommandContext context) throws WrongUsageException, CommandException
     {
         System.out.println(commandDesc);
         String[] strings = commandDesc.split(" ");
@@ -28,7 +30,7 @@ public class SetPermCommand implements Command
             st += "5  : Moderator (has full moderation power)\n";
             st += "6  : Admin (has full administration power)\n";
             st += "\n--- End ---";
-            MessagingUtils.sendSystemMessage(sentBy, st, MessageType.MESSAGE);
+            MessagingUtils.sendSystemMessage(sentBy, st, MessageType.MESSAGE, context);
         }
         else if(strings.length >= 2)
         {
@@ -42,7 +44,7 @@ public class SetPermCommand implements Command
                     if(cu != null)
                     {
                         cu.setPermLevel(lvl);
-                        MessagingUtils.sendSystemMessage(sentBy, "Successfully set the permission level of user " + username + " to " + PermissionLevels.getName(lvl), MessageType.NOTIFICATION);
+                        MessagingUtils.sendSystemMessage(sentBy, "Successfully set the permission level of user " + username + " to " + PermissionLevels.getName(lvl), MessageType.NOTIFICATION, context);
                         if(ChatServer.isConnected(username))
                         {
                             synchronized(ChatServer.usersLock)
@@ -51,7 +53,8 @@ public class SetPermCommand implements Command
                                 {
                                     if(uc.getUser().getUsername().equals(username))
                                     {
-                                        MessagingUtils.sendSystemMessage(uc, "Your permission level was set to " + PermissionLevels.getName(lvl), MessageType.NOTIFICATION);
+                                        // Hide the context for security reasons
+                                        MessagingUtils.sendSystemMessage(uc, "Your permission level was set to " + PermissionLevels.getName(lvl), MessageType.NOTIFICATION, null);
                                     }
                                 }
                             }
@@ -59,14 +62,14 @@ public class SetPermCommand implements Command
                     }
                     else
                     {
-                        MessagingUtils.sendSystemMessage(sentBy, "User " + username + " does not exist", MessageType.ERROR);
+                        throw new CommandException("User " + username + " does not exist", context);
                     }
                 }
             }
         }
         else
         {
-            MessagingUtils.sendSystemMessage(sentBy, "Syntax : '/setperm help' OR '/setperm <permlevel> <user> [user] [user]...'", MessageType.ERROR);
+            throw new WrongUsageException(context);
         }
     }
 

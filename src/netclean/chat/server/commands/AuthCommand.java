@@ -13,11 +13,11 @@ import netclean.chat.server.UserConnection;
 public class AuthCommand implements Command
 {
     @Override
-    public void exec(String commandDesc, UserConnection sentBy)
+    public void exec(String commandDesc, UserConnection sentBy, CommandContext context)
     {
         if(sentBy.isAuth())
         {
-            sentBy.getPeer().send(ChatServer.objectToByteArray(new Message("You are already logged in as '" + sentBy.getName() + "'!", null, MessageType.ERROR)));
+            MessagingUtils.sendSystemMessage(sentBy, "You are already logged in as '" + sentBy.getName() + "'!", MessageType.ERROR, context);
         }
         else
         {
@@ -25,7 +25,7 @@ public class AuthCommand implements Command
             String uname = splits[0];
             if(splits.length < 2 || uname.isEmpty())
             {
-                MessagingUtils.sendSystemMessage(sentBy, "Incorrect syntax : '/auth <username> <password>", MessageType.ERROR);
+                MessagingUtils.sendSystemMessage(sentBy, "Incorrect syntax : '/auth <username> <password>", MessageType.ERROR, context);
                 return;
             }
             try
@@ -36,11 +36,11 @@ public class AuthCommand implements Command
                 {
                     if(ChatServer.isConnected(uname))
                     {
-                        MessagingUtils.sendSystemMessage(sentBy, "You are already connected from another location.", MessageType.ERROR);
+                        MessagingUtils.sendSystemMessage(sentBy, "You are already connected from another location.", MessageType.ERROR, context);
                         return;
                     }
                     sentBy.auth(user);
-                    MessagingUtils.sendSystemMessage(sentBy, "You were successfully logged in as " + uname + "!", MessageType.SUCCESS);
+                    MessagingUtils.sendSystemMessage(sentBy, "You were successfully logged in as " + uname + "!", MessageType.SUCCESS, context);
                     String welcomeMessage = "";
                     switch(user.getPermLevel())
                     {
@@ -74,7 +74,7 @@ public class AuthCommand implements Command
                     }
                     if(!welcomeMessage.isEmpty())
                     {
-                        MessagingUtils.sendSystemMessage(sentBy, welcomeMessage, MessageType.NOTIFICATION);
+                        MessagingUtils.sendSystemMessage(sentBy, welcomeMessage, MessageType.NOTIFICATION, context);
                     }
                     if(sentBy.getUser().getPermLevel() > PermissionLevels.GHOST)
                     {
@@ -92,12 +92,12 @@ public class AuthCommand implements Command
                     sentBy.getPeer().send(ChatServer.objectToByteArray(new UserList(ChatServer.userList())));
                 }
                 else
-                    MessagingUtils.sendSystemMessage(sentBy, "Incorrect username or password. Have you created an account with '/new <username> <password>'?", MessageType.ERROR);
+                    MessagingUtils.sendSystemMessage(sentBy, "Incorrect username or password. Have you created an account with '/new <username> <password>'?", MessageType.ERROR, context);
             }
             catch(ArrayIndexOutOfBoundsException e)
             {
                 e.printStackTrace();
-                MessagingUtils.sendSystemMessage(sentBy, "Incorrect syntax : '/auth <username> <password>", MessageType.ERROR);
+                MessagingUtils.sendSystemMessage(sentBy, "Incorrect syntax : '/auth <username> <password>", MessageType.ERROR, context);
             }
         }
 

@@ -13,12 +13,14 @@ import java.util.TreeSet;
 import netclean.chat.packets.servertoclient.MessageType;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.UserConnection;
+import netclean.chat.server.commands.exception.CommandException;
+import netclean.chat.server.commands.exception.WrongUsageException;
 
 public class HelpCommand implements Command
 {
 
     @Override
-    public void exec(String commandDesc, UserConnection sentBy)
+    public void exec(String commandDesc, UserConnection sentBy, CommandContext context) throws WrongUsageException, CommandException
     {
         System.out.println(commandDesc);
         String[] strings = commandDesc.split(" ");
@@ -53,19 +55,19 @@ public class HelpCommand implements Command
                 }
             });
 
-            String output = "";
+            String output = "--- Help ---\n";
             for(Command c : uniqueCommands)
             {
                 output += c.getPreferredCommand() + " : " + c.getShortHelp() + "\n";
             }
-            MessagingUtils.sendSystemMessage(sentBy, output, MessageType.MESSAGE);
+            MessagingUtils.sendSystemMessage(sentBy, output, MessageType.MESSAGE, context);
         }
         else if(strings.length == 1)
         {
             Command c = ChatServer.commandsRegistry.get(strings[0]);
             if(c == null)
             {
-                MessagingUtils.sendSystemMessage(sentBy, "Unknown command : " + strings[0], MessageType.ERROR);
+                throw new CommandException("Unknown command : " + strings[0], context);
             }
             else
             {
@@ -73,13 +75,13 @@ public class HelpCommand implements Command
                 s += "Help -- " + c.getPreferredCommand() + "\n";
                 s += c.getLongHelp() + "\n";
                 s += "Syntax :\n    " + c.getSyntax();
-                MessagingUtils.sendSystemMessage(sentBy, s, MessageType.MESSAGE);
+                MessagingUtils.sendSystemMessage(sentBy, s, MessageType.MESSAGE, context);
             }
 
         }
         else
         {
-            MessagingUtils.sendSystemMessage(sentBy, "Syntax : /help [command]", MessageType.ERROR);
+            throw new WrongUsageException(context);
         }
     }
 

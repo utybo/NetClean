@@ -10,23 +10,17 @@ public class Send implements Command
 {
 
     @Override
-    public void exec(String commandDesc, UserConnection sentBy)
+    public void exec(String commandDesc, UserConnection sentBy, CommandContext context)
     {
-        if(sentBy.isAuth())
+        synchronized(ChatServer.usersLock)
         {
-            synchronized(ChatServer.usersLock)
+            for(UserConnection uc : ChatServer.users)
             {
-                for(UserConnection uc : ChatServer.users)
-                {
-                    if(uc.isAuth())
-                        uc.getPeer().send(ChatServer.objectToByteArray(new Message(commandDesc, sentBy.getDisplayName(), MessageType.MESSAGE)));
-                }
+                if(uc.isAuth() && uc.getUser().getPermLevel() > PermissionLevels.BANNED)
+                    uc.getPeer().send(ChatServer.objectToByteArray(new Message(commandDesc, sentBy.getDisplayName(), MessageType.MESSAGE)));
             }
         }
-        else
-        {
-            sentBy.getPeer().send(ChatServer.objectToByteArray(new Message("You are not authenticated! Use '/auth <username>' to connect to this server", null, MessageType.ERROR)));
-        }
+
     }
 
     @Override

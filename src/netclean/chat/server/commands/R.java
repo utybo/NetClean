@@ -9,7 +9,7 @@ public class R implements Command
 {
 
     @Override
-    public void exec(String commandDesc, UserConnection sentBy)
+    public void exec(String commandDesc, UserConnection sentBy, CommandContext context)
     {
         if(sentBy.isAuth())
         {
@@ -39,7 +39,7 @@ public class R implements Command
     @Override
     public String getSyntax()
     {
-        return "r <module>";
+        return "/r <module>";
     }
 
     @Override

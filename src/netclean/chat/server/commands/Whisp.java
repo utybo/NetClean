@@ -1,48 +1,47 @@
 package netclean.chat.server.commands;
 
-import netclean.SerialUtils;
-import netclean.chat.packets.servertoclient.Message;
 import netclean.chat.packets.servertoclient.MessageType;
 import netclean.chat.packets.servertoclient.WhispMessage;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.PermissionLevels;
 import netclean.chat.server.UserConnection;
+import netclean.chat.server.commands.exception.CommandException;
+import netclean.chat.server.commands.exception.WrongUsageException;
 
 public class Whisp implements Command
 {
 
     @Override
-    public void exec(String commandDesc, UserConnection sentBy)
+    public void exec(String commandDesc, UserConnection sentBy, CommandContext context) throws WrongUsageException, CommandException
     {
         if(sentBy.isAuth())
         {
+            if(commandDesc.split(" ").length < 2)
+            {
+                throw new WrongUsageException(context);
+            }
             String toWho = commandDesc.split(" ")[0];
             String message = commandDesc.substring(commandDesc.indexOf(' ') + 1);
-            if(message.equals(commandDesc))
+
+            boolean b = false;
+            synchronized(ChatServer.usersLock)
             {
-                sentBy.getPeer().send(SerialUtils.objectToByteArray(new Message("Syntax error : the syntax for /whisp is '/whisp <to> <message>'", null, MessageType.ERROR)));
-            }
-            else
-            {
-                boolean b = false;
-                synchronized(ChatServer.usersLock)
+                for(UserConnection uc : ChatServer.users)
                 {
-                    for(UserConnection uc : ChatServer.users)
+                    if(uc.isAuth() && uc.getName().equals(toWho) && uc.getUser().getPermLevel() >= PermissionLevels.TALKER)
                     {
-                        if(uc.isAuth() && uc.getName().equals(toWho) && uc.getUser().getPermLevel() >= PermissionLevels.TALKER)
-                        {
-                            byte[] bytes = ChatServer.objectToByteArray(new WhispMessage(sentBy.getName(), toWho, message));
-                            uc.getPeer().send(bytes);
-                            sentBy.getPeer().send(bytes);
-                            return;
-                        }
+                        byte[] bytes = ChatServer.objectToByteArray(new WhispMessage(sentBy.getName(), toWho, message));
+                        uc.getPeer().send(bytes);
+                        sentBy.getPeer().send(bytes);
+                        return;
                     }
                 }
-                if(b == false)
-                {
-                    MessagingUtils.sendSystemMessage(sentBy, "Could not whisp " + toWho + ". Are you sure they are connected and can receive whisps?", MessageType.ERROR);
-                }
             }
+            if(b == false)
+            {
+                throw new CommandException("Could not whisp " + toWho + ". Are you sure they are connected and can receive whisps?", context);
+            }
+
         }
     }
 

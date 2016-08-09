@@ -7,16 +7,19 @@ import netclean.chat.packets.servertoclient.MessageType;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.ChatUser;
 import netclean.chat.server.UserConnection;
+import netclean.chat.server.commands.exception.CommandException;
+import netclean.chat.server.commands.exception.ExecutionException;
+import netclean.chat.server.commands.exception.WrongUsageException;
 
 public class NewCommand implements Command
 {
 
     @Override
-    public void exec(String commandDesc, UserConnection sentBy)
+    public void exec(String commandDesc, UserConnection sentBy, CommandContext context) throws WrongUsageException, ExecutionException, CommandException
     {
         if(sentBy.isAuth())
         {
-            MessagingUtils.sendSystemMessage(sentBy, "You are already authenticated as " + sentBy.getName(), MessageType.ERROR);
+            throw new CommandException("You are already authenticated as " + sentBy.getName(), context);
         }
         else
         {
@@ -24,39 +27,34 @@ public class NewCommand implements Command
             String uname = splits[0];
             if(splits.length < 2 || uname.isEmpty())
             {
-                MessagingUtils.sendSystemMessage(sentBy, "Incorrect syntax : '/new <username> <password>", MessageType.ERROR);
-                return;
+                throw new WrongUsageException(context);
             }
             if(ChatServer.getData().exists(uname))
             {
-                MessagingUtils.sendSystemMessage(sentBy, "An user has already registered that name!", MessageType.ERROR);
-                return;
+                throw new CommandException("An user has already registered that name!", context);
             }
             Pattern p = Pattern.compile("[^a-zA-Z0-9]");
             boolean incorrect = p.matcher(uname).find();
             if(incorrect)
             {
-                MessagingUtils.sendSystemMessage(sentBy, "Your username can only contain regular letters (a-z A-Z) and numbers (0-9)!", MessageType.ERROR);
-                return;
+                throw new CommandException("Your username can only contain regular letters (a-z A-Z) and numbers (0-9)!", context);
             }
             try
             {
                 String pw = commandDesc.substring(commandDesc.indexOf(' ', commandDesc.indexOf(' ' + 1)) + 1);
                 if(pw.isEmpty())
                 {
-                    MessagingUtils.sendSystemMessage(sentBy, "Your password cannot be empty", MessageType.ERROR);
-                    return;
+                    throw new CommandException("Your password cannot be empty", context);
                 }
                 if(pw.length() < 8)
                 {
-                    MessagingUtils.sendSystemMessage(sentBy, "Your password is too weak, it must be at least 8 characters long", MessageType.ERROR);
-                    return;
+                    throw new CommandException("Your password is too weak, it must be at least 8 characters long", context);
                 }
                 byte[] hash = ChatUser.sha256(pw);
                 ChatUser user = ChatServer.getData().create(uname, hash);
                 if(user != null)
                 {
-                    MessagingUtils.sendSystemMessage(sentBy, "Your account was created with the name '" + uname + "'! You can now log in.", MessageType.SUCCESS);
+                    MessagingUtils.sendSystemMessage(sentBy, "Your account was created with the name '" + uname + "'! You can now log in.", MessageType.SUCCESS, context);
                     new Thread(() ->
                     {
                         try
@@ -70,12 +68,11 @@ public class NewCommand implements Command
                     }).start();
                 }
                 else
-                    MessagingUtils.sendSystemMessage(sentBy, "There was an error while processing your request. Please try again.", MessageType.ERROR);
+                    throw new ExecutionException("There was an error while processing your request. Please try again.", context);
             }
             catch(ArrayIndexOutOfBoundsException e)
             {
-                e.printStackTrace();
-                MessagingUtils.sendSystemMessage(sentBy, "Incorrect syntax : '/auth <username> <password>", MessageType.ERROR);
+                throw new WrongUsageException(context);
             }
         }
     }
