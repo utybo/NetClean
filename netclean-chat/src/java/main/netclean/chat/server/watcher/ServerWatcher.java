@@ -4,14 +4,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import netclean.NCClient;
-import netclean.NCPeer;
-import netclean.PeerListener;
-import netclean.SerialUtils;
 import netclean.chat.packets.clienttoserver.CommandOTA;
 import netclean.chat.packets.servertoclient.Message;
 import netclean.chat.packets.servertoclient.UserConnectedNotification;
 import netclean.chat.packets.servertoclient.UserDisconnectedNotification;
+import netclean.framework.NCClient;
+import netclean.framework.NCPeer;
+import netclean.framework.PeerListener;
+import netclean.framework.SerialUtils;
 
 public class ServerWatcher implements PeerListener
 {

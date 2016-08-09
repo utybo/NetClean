@@ -1,6 +1,5 @@
 package netclean.chat.server.commands;
 
-import netclean.SerialUtils;
 import netclean.chat.packets.servertoclient.Message;
 import netclean.chat.packets.servertoclient.MessageType;
 import netclean.chat.packets.servertoclient.UserConnectedNotification;
@@ -9,6 +8,7 @@ import netclean.chat.server.ChatServer;
 import netclean.chat.server.ChatUser;
 import netclean.chat.server.PermissionLevels;
 import netclean.chat.server.UserConnection;
+import netclean.framework.SerialUtils;
 
 public class AuthCommand implements Command
 {

@@ -14,9 +14,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
-import netclean.NCClient;
-import netclean.NCPeer;
-import netclean.PeerListener;
 import netclean.chat.packets.clienttoserver.CommandOTA;
 import netclean.chat.packets.servertoclient.Message;
 import netclean.chat.packets.servertoclient.MessageType;
@@ -24,6 +21,9 @@ import netclean.chat.packets.servertoclient.UserConnectedNotification;
 import netclean.chat.packets.servertoclient.UserDisconnectedNotification;
 import netclean.chat.packets.servertoclient.UserList;
 import netclean.chat.packets.servertoclient.WhispMessage;
+import netclean.framework.NCClient;
+import netclean.framework.NCPeer;
+import netclean.framework.PeerListener;
 
 public class ChatClient
 {

@@ -1,4 +1,4 @@
-package netclean;
+package netclean.framework;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

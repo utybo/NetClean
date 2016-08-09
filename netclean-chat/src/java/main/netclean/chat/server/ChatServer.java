@@ -14,11 +14,6 @@ import java.util.Vector;
 
 import com.google.gson.Gson;
 
-import netclean.NCPeer;
-import netclean.NCServer;
-import netclean.PeerListener;
-import netclean.SerialUtils;
-import netclean.ServerListener;
 import netclean.chat.packets.servertoclient.Message;
 import netclean.chat.packets.servertoclient.MessageType;
 import netclean.chat.server.commands.AuthCommand;
@@ -31,6 +26,11 @@ import netclean.chat.server.commands.Send;
 import netclean.chat.server.commands.SetPermCommand;
 import netclean.chat.server.commands.Whisp;
 import netclean.chat.server.watcher.ServerWatcherCommand;
+import netclean.framework.NCPeer;
+import netclean.framework.NCServer;
+import netclean.framework.PeerListener;
+import netclean.framework.SerialUtils;
+import netclean.framework.ServerListener;
 
 public class ChatServer
 {

@@ -1,4 +1,4 @@
-package netclean;
+package netclean.framework;
 
 public interface ServerListener
 {

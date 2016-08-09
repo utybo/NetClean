@@ -1,7 +1,5 @@
 package netclean.chat.server;
 
-import netclean.NCPeer;
-import netclean.PeerListener;
 import netclean.chat.packets.clienttoserver.CommandOTA;
 import netclean.chat.packets.servertoclient.Message;
 import netclean.chat.packets.servertoclient.MessageType;
@@ -12,6 +10,8 @@ import netclean.chat.server.commands.context.TrackingContext;
 import netclean.chat.server.commands.exception.CommandException;
 import netclean.chat.server.commands.exception.NotEnoughPermissionException;
 import netclean.chat.server.commands.exception.WrongUsageException;
+import netclean.framework.NCPeer;
+import netclean.framework.PeerListener;
 
 public class UserConnection implements PeerListener
 {
