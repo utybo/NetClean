@@ -8,14 +8,24 @@ import java.util.Objects;
 /**
  * A server. Each server will run 1 thread for accepting connections, and 2
  * threads per peer (one for input, one for output).
+ * <p>
+ * The server does not handle peers - it merely accepts connections. It does
+ * <b>not</b> keep track of connected users.
+ * <p>
+ * Depending on how you wish to build your application, you can either provide a
+ * default {@link PeerListener} that will be used for <i>all</i> the peers, or
+ * handle the peers on a case-by-case model using
+ * {@link ServerListener#supportsListenerCreation()} and
+ * {@link ServerListener#createPeerListener(NCPeer)}. If you use the second
+ * case, you must provide a <code>null</code> default PeerListener.
  * 
  * @author utybo
- *
+ * @see NCPeer
  */
 public class NCServer
 {
     /**
-     * The port this server runs on
+     * The port this server will run on
      */
     private final int port;
 
@@ -25,7 +35,7 @@ public class NCServer
     private ServerSocket serverSocket;
 
     /**
-     * If this server is running [! UNIMPLEMENTED !]
+     * If this server is running. <font color=red>[! UNTESTED/UNIMPLEMENTED !]</font>
      */
     @SuppressWarnings("unused")
     private volatile boolean running;
@@ -119,6 +129,16 @@ public class NCServer
         acceptThread.start();
     }
 
+    /**
+     * Stops the server.
+     * <p>
+     * All the {@link NCPeer} will crash, properly cleaning up and calling their
+     * respective {@link PeerListener#onConnectionInterrupted(NCPeer)}. The
+     * crash handling methods may also be triggered - they should be ignored as
+     * soon as this method is called.
+     * 
+     * @throws IOException
+     */
     public synchronized void stop() throws IOException
     {
         acceptThread.interrupt();
@@ -126,6 +146,14 @@ public class NCServer
         serverSocket.close();
     }
 
+    /**
+     * Executes a new thread to handle the creation of peers and listeners. This
+     * is done on a new thread to avoid not being able to accept new
+     * connections.
+     * 
+     * @param clientSocket
+     * @throws IOException
+     */
     private void addClient(Socket clientSocket) throws IOException
     {
         new Thread(() ->
