@@ -5,10 +5,10 @@ import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import netclean.chat.packets.servertoclient.MessageType;
+import netclean.chat.common.PermissionLevels;
+import netclean.chat.common.packets.servertoclient.MessageType;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.ChatUser;
-import netclean.chat.server.PermissionLevels;
 import netclean.chat.server.UserConnection;
 import netclean.chat.server.commands.Command;
 import netclean.chat.server.commands.CommandContext;

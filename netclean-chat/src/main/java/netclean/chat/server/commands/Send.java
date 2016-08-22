@@ -1,9 +1,9 @@
 package netclean.chat.server.commands;
 
-import netclean.chat.packets.servertoclient.Message;
-import netclean.chat.packets.servertoclient.MessageType;
+import netclean.chat.common.PermissionLevels;
+import netclean.chat.common.packets.servertoclient.Message;
+import netclean.chat.common.packets.servertoclient.MessageType;
 import netclean.chat.server.ChatServer;
-import netclean.chat.server.PermissionLevels;
 import netclean.chat.server.UserConnection;
 
 public class Send implements Command

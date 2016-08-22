@@ -1,7 +1,7 @@
 package netclean.chat.server.commands;
 
-import netclean.chat.packets.servertoclient.Message;
-import netclean.chat.packets.servertoclient.MessageType;
+import netclean.chat.common.packets.servertoclient.Message;
+import netclean.chat.common.packets.servertoclient.MessageType;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.UserConnection;
 import netclean.chat.server.commands.context.TrackingContext;

@@ -28,9 +28,15 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import netclean.chat.packets.servertoclient.MessageType;
+import netclean.chat.common.packets.servertoclient.MessageType;
 
 @SuppressWarnings("serial")
+/**
+ * NC Chat Client GUI. Pretty simple, right?
+ * 
+ * @author utybo
+ *
+ */
 public class ClientGUI extends JFrame
 {
     private static Theme theme = new DefaultTheme();
@@ -116,7 +122,7 @@ public class ClientGUI extends JFrame
         {
             e.printStackTrace();
         }
-        
+
         if(scrollToBottom)
         {
             scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());

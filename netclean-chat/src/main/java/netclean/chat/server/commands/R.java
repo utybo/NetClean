@@ -1,8 +1,8 @@
 package netclean.chat.server.commands;
 
-import netclean.chat.packets.servertoclient.UserList;
+import netclean.chat.common.PermissionLevels;
+import netclean.chat.common.packets.servertoclient.UserList;
 import netclean.chat.server.ChatServer;
-import netclean.chat.server.PermissionLevels;
 import netclean.chat.server.UserConnection;
 
 public class R implements Command

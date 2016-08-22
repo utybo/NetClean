@@ -2,8 +2,14 @@ package netclean.chat.client;
 
 import java.awt.Color;
 
-import netclean.chat.packets.servertoclient.MessageType;
+import netclean.chat.common.packets.servertoclient.MessageType;
 
+/**
+ * Default theme implementation. Future updates will allow for custom themes.
+ * 
+ * @author utybo
+ *
+ */
 public class DefaultTheme extends Theme
 {
 
@@ -34,6 +40,13 @@ public class DefaultTheme extends Theme
             return new MessageStyle();
 
         }
+    }
+
+    @Override
+    public MessageStyle getSpecialStyle(SpecialStyleType type)
+    {
+        // TODO Add styles.
+        return null;
     }
 
 }

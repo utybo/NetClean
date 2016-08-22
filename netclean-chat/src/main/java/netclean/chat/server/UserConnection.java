@@ -1,9 +1,10 @@
 package netclean.chat.server;
 
-import netclean.chat.packets.clienttoserver.CommandOTA;
-import netclean.chat.packets.servertoclient.Message;
-import netclean.chat.packets.servertoclient.MessageType;
-import netclean.chat.packets.servertoclient.UserDisconnectedNotification;
+import netclean.chat.common.PermissionLevels;
+import netclean.chat.common.packets.clienttoserver.CommandOTA;
+import netclean.chat.common.packets.servertoclient.Message;
+import netclean.chat.common.packets.servertoclient.MessageType;
+import netclean.chat.common.packets.servertoclient.UserDisconnectedNotification;
 import netclean.chat.server.commands.Command;
 import netclean.chat.server.commands.MessagingUtils;
 import netclean.chat.server.commands.context.TrackingContext;

@@ -20,6 +20,13 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * The dialog seen on application startup that prompts for the server address +
+ * port
+ * 
+ * @author utybo
+ *
+ */
 public class ConnectDialog extends JDialog
 {
     private final JPanel contentPanel = new JPanel();
@@ -33,7 +40,7 @@ public class ConnectDialog extends JDialog
     {
         super(parent);
         setModalityType(ModalityType.APPLICATION_MODAL);
-        
+
         setTitle("NetClean Chat Connect");
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -82,7 +89,7 @@ public class ConnectDialog extends JDialog
         getRootPane().setDefaultButton(okButton);
 
         pack();
-        
+
         setLocationRelativeTo(parent);
     }
 

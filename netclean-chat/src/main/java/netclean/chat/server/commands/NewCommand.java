@@ -3,7 +3,7 @@ package netclean.chat.server.commands;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import netclean.chat.packets.servertoclient.MessageType;
+import netclean.chat.common.packets.servertoclient.MessageType;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.ChatUser;
 import netclean.chat.server.UserConnection;

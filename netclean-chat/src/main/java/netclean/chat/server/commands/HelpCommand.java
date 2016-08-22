@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import netclean.chat.packets.servertoclient.MessageType;
+import netclean.chat.common.packets.servertoclient.MessageType;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.UserConnection;
 import netclean.chat.server.commands.exception.CommandException;

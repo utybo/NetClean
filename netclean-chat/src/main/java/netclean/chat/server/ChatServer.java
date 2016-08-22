@@ -14,8 +14,9 @@ import java.util.Vector;
 
 import com.google.gson.Gson;
 
-import netclean.chat.packets.servertoclient.Message;
-import netclean.chat.packets.servertoclient.MessageType;
+import netclean.chat.common.PermissionLevels;
+import netclean.chat.common.packets.servertoclient.Message;
+import netclean.chat.common.packets.servertoclient.MessageType;
 import netclean.chat.server.commands.AuthCommand;
 import netclean.chat.server.commands.Command;
 import netclean.chat.server.commands.DisconnectCommand;

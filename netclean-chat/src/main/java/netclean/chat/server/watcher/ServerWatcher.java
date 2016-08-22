@@ -4,10 +4,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import netclean.chat.packets.clienttoserver.CommandOTA;
-import netclean.chat.packets.servertoclient.Message;
-import netclean.chat.packets.servertoclient.UserConnectedNotification;
-import netclean.chat.packets.servertoclient.UserDisconnectedNotification;
+import netclean.chat.common.packets.clienttoserver.CommandOTA;
+import netclean.chat.common.packets.servertoclient.Message;
+import netclean.chat.common.packets.servertoclient.UserConnectedNotification;
+import netclean.chat.common.packets.servertoclient.UserDisconnectedNotification;
 import netclean.framework.NCClient;
 import netclean.framework.NCPeer;
 import netclean.framework.PeerListener;

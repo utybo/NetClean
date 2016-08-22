@@ -1,4 +1,4 @@
-package netclean.chat.packets.servertoclient;
+package netclean.chat.common.packets.servertoclient;
 
 public enum MessageType 
 {

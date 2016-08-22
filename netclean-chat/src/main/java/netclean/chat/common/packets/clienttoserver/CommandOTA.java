@@ -1,4 +1,4 @@
-package netclean.chat.packets.clienttoserver;
+package netclean.chat.common.packets.clienttoserver;
 
 import java.io.Serializable;
 

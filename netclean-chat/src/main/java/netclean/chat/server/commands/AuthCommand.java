@@ -1,12 +1,12 @@
 package netclean.chat.server.commands;
 
-import netclean.chat.packets.servertoclient.Message;
-import netclean.chat.packets.servertoclient.MessageType;
-import netclean.chat.packets.servertoclient.UserConnectedNotification;
-import netclean.chat.packets.servertoclient.UserList;
+import netclean.chat.common.PermissionLevels;
+import netclean.chat.common.packets.servertoclient.Message;
+import netclean.chat.common.packets.servertoclient.MessageType;
+import netclean.chat.common.packets.servertoclient.UserConnectedNotification;
+import netclean.chat.common.packets.servertoclient.UserList;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.ChatUser;
-import netclean.chat.server.PermissionLevels;
 import netclean.chat.server.UserConnection;
 import netclean.framework.SerialUtils;
 

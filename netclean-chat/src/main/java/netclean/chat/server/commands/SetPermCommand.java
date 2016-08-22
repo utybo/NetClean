@@ -1,9 +1,9 @@
 package netclean.chat.server.commands;
 
-import netclean.chat.packets.servertoclient.MessageType;
+import netclean.chat.common.PermissionLevels;
+import netclean.chat.common.packets.servertoclient.MessageType;
 import netclean.chat.server.ChatServer;
 import netclean.chat.server.ChatUser;
-import netclean.chat.server.PermissionLevels;
 import netclean.chat.server.UserConnection;
 import netclean.chat.server.commands.exception.CommandException;
 import netclean.chat.server.commands.exception.WrongUsageException;

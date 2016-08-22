@@ -8,6 +8,8 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
+import netclean.chat.common.PermissionLevels;
+
 public class ChatServerFile
 {
     private ArrayList<ChatUser> users = new ArrayList<>();

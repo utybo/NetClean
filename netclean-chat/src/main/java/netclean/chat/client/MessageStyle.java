@@ -2,11 +2,17 @@ package netclean.chat.client;
 
 import java.awt.Color;
 
+/**
+ * A style for a type of message.
+ * 
+ * @author utybo
+ * @see Theme
+ */
 public class MessageStyle
 {
-    private boolean bold, italic, underlined;
-    private Color foreground, background;
-    
+    protected boolean bold, italic, underlined;
+    protected Color foreground, background;
+
     public MessageStyle()
     {
         this(false, false, false, null, null);

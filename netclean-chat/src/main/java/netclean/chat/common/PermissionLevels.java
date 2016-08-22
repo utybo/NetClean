@@ -1,4 +1,4 @@
-package netclean.chat.server;
+package netclean.chat.common;
 
 public interface PermissionLevels
 {

@@ -1,10 +1,6 @@
 package netclean.chat.client;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,22 +10,35 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
-import netclean.chat.packets.clienttoserver.CommandOTA;
-import netclean.chat.packets.servertoclient.Message;
-import netclean.chat.packets.servertoclient.MessageType;
-import netclean.chat.packets.servertoclient.UserConnectedNotification;
-import netclean.chat.packets.servertoclient.UserDisconnectedNotification;
-import netclean.chat.packets.servertoclient.UserList;
-import netclean.chat.packets.servertoclient.WhispMessage;
+import netclean.chat.common.packets.clienttoserver.CommandOTA;
+import netclean.chat.common.packets.servertoclient.Message;
+import netclean.chat.common.packets.servertoclient.MessageType;
+import netclean.chat.common.packets.servertoclient.UserConnectedNotification;
+import netclean.chat.common.packets.servertoclient.UserDisconnectedNotification;
+import netclean.chat.common.packets.servertoclient.UserList;
+import netclean.chat.common.packets.servertoclient.WhispMessage;
 import netclean.framework.NCClient;
 import netclean.framework.NCPeer;
 import netclean.framework.PeerListener;
+import netclean.framework.SerialUtils;
 
+/**
+ * Main class for NetClean Chat Client
+ * 
+ * @author matthieu
+ *
+ */
 public class ChatClient
 {
     static NCClient client;
     static ClientGUI gui;
 
+    /**
+     * Launch the client
+     * 
+     * @param args
+     *            Arguments (should be an empty array)
+     */
     public static void main(String[] args)
     {
         try
@@ -55,7 +64,7 @@ public class ChatClient
                 {
                     try
                     {
-                        Object o = byteArrayToObject(received);
+                        Object o = SerialUtils.byteArrayToObject(received);
 
                         if(o instanceof Message)
                         {
@@ -71,11 +80,13 @@ public class ChatClient
                         {
                             UserConnectedNotification udn = (UserConnectedNotification)o;
                             gui.append("--- " + udn.name + " is now connected", MessageType.INFO);
+                            peer.send(SerialUtils.objectToByteArray(new CommandOTA("r", "users")));
                         }
                         if(o instanceof UserDisconnectedNotification)
                         {
                             UserDisconnectedNotification udn = (UserDisconnectedNotification)o;
                             gui.append("--- " + udn.name + " is now disconnected", MessageType.INFO);
+                            peer.send(SerialUtils.objectToByteArray(new CommandOTA("r", "users")));
                         }
                         if(o instanceof UserList)
                         {
@@ -127,6 +138,12 @@ public class ChatClient
         }
     }
 
+    /**
+     * Utility method for sending methods ("/..." ==> CommandOTA packet ==> send
+     * to server)
+     * 
+     * @param s
+     */
     static void send(String s)
     {
         if(s.startsWith("/"))
@@ -137,39 +154,11 @@ public class ChatClient
             {
                 body = s.substring(s.indexOf(' ') + 1);
             }
-            client.send(objectToByteArray(new CommandOTA(head, body)));
+            client.send(SerialUtils.objectToByteArray(new CommandOTA(head, body)));
         }
         else
         {
-            client.send(objectToByteArray(new CommandOTA("send", s)));
+            client.send(SerialUtils.objectToByteArray(new CommandOTA("send", s)));
         }
-    }
-
-    public static byte[] objectToByteArray(Object o)
-    {
-        try(ByteArrayOutputStream baos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(baos))
-        {
-            oos.writeObject(o);
-            oos.flush();
-            return baos.toByteArray();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static Object byteArrayToObject(byte[] received) throws ClassNotFoundException
-    {
-        try(ByteArrayInputStream bais = new ByteArrayInputStream(received); ObjectInputStream ois = new ObjectInputStream(bais))
-        {
-            return ois.readObject();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
